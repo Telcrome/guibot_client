@@ -4,11 +4,7 @@ import asyncio
 import time
 from guibot.bot import GuiBot
 import pyautogui
-
-LOCAL_ADDRESS = '127.0.0.1'
-PORT = 5678
-LOCAL_URI = f'ws://{LOCAL_ADDRESS}:{PORT}/ws'
-USER_NAME = 'bot_script'
+from bot_config import LOCAL_ADDRESS, PORT, LOCAL_URI, USER_NAME
 
 bc_textbox_test = {
     'cmd': 'setText',
