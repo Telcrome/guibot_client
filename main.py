@@ -1,39 +1,51 @@
+from pprint import pprint
 import itertools
 import asyncio
-import websockets as ws
 import time
-import json
+from guibot.bot import GuiBot
+import pyautogui
 
 LOCAL_ADDRESS = '127.0.0.1'
 PORT = 5678
 LOCAL_URI = f'ws://{LOCAL_ADDRESS}:{PORT}/ws'
 USER_NAME = 'bot_script'
 
+bc_textbox_test = {
+    'cmd': 'setText',
+    'selector': 'input[aria-label="Description, "]',
+    'value': 'some text for the query'
+}
+wiki_searchbar = {
+    'cmd': 'setText',
+    'selector': '#searchInput',
+    'value': 'hallo papa'
+}
+wait_for = {
+    'cmd': 'waitForElement',
+    'selector': 'input[aria-label="Description, "]'
+}
+test_click = {
+    'cmd': 'clickElement',
+    'selector': '#js-lang-list-button'
+}
 
-async def logic(websocket):
-    # document.querySelector('input[aria-label="Description, "]').value = '1'
-    test_command = {
-        'cmd': 'setText',
-        'selector': 'input[aria-label="Description, "]',
-        'value': 'some text for the query'
-    }
-    await websocket.send(json.dumps(test_command))
-    await asyncio.sleep(10)
 
+async def logic(h: GuiBot):
+    # answer = await h.send_command_by_json(wait_for)
+    # pprint(answer)
 
-async def main():
-    # uri = LOCAL_URI
-    # websocket = ws.connect(LOCAL_URI)
-    # await websocket.send('test')
+    while True:
 
-    async with ws.connect(LOCAL_URI) as websocket:
-        await websocket.send(json.dumps({
-            'user': USER_NAME,
-            'type': 'master'
-        }))
+        answer = await h.send_command_by_json(test_click)
+        pprint(answer)
 
-        await logic(websocket)
+        print('sleeping for 5 seconds')
+        await asyncio.sleep(3)
+        #
+        # answer = await h.send_command_by_json(test_click)
+        # pprint(answer)
 
 
 if __name__ == '__main__':
-    asyncio.get_event_loop().run_until_complete(main())
+    bot = GuiBot(USER_NAME, LOCAL_URI, logic)
+    bot.start_bot()
