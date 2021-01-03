@@ -33,7 +33,7 @@ async def logic(h: GuiBot):
     while True:
 
         answer = await h.send_command_by_json(test_click)
-        pprint(answer)
+        # pprint(answer)
 
         print('sleeping for 5 seconds')
         await asyncio.sleep(3)
