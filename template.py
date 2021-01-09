@@ -17,7 +17,7 @@ async def main_routine(b: GuiBot):
 
 if __name__ == '__main__':
     bot = GuiBot(
-        "script_user",
-        "ws://127.0.0.1:8080/ws",
+        channel_token="viiNBK17zU",
+        web_address="ws://127.0.0.1:8080/ws",
         logic=main_routine,
         verbosity=Verbosity.File)

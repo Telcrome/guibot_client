@@ -16,12 +16,12 @@ class GuiBot:
 
     def __init__(self,
                  channel_token: str,
-                 local_uri: str,
+                 web_address: str,
                  logic: tau.Callable,
                  bot_type='python_script',
                  verbosity=Verbosity.File):
         self.channel_token = channel_token
-        self.local_uri = local_uri
+        self.web_address = web_address
         self.logic = logic
         self.websocket = None
         self.bot_type, self.verbosity = bot_type, verbosity
@@ -48,7 +48,7 @@ class GuiBot:
         # self.websocket = ws.connect(LOCAL_URI)
         # await websocket.send('test')
 
-        async with ws.connect(self.local_uri) as websocket:
+        async with ws.connect(self.web_address) as websocket:
             self.websocket = websocket
             await websocket.send(json.dumps({
                 'channel_token': self.channel_token,
