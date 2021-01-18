@@ -15,16 +15,16 @@ class Verbosity(Enum):
 class GuiBot:
 
     def __init__(self,
-                 channel_token: str,
+                 channel_id: str,
                  web_address: str,
                  logic: tau.Callable,
-                 bot_type='python_script',
+                 bot_id='python_script',
                  verbosity=Verbosity.File):
-        self.channel_token = channel_token
+        self.channel_token = channel_id
         self.web_address = web_address
         self.logic = logic
         self.websocket = None
-        self.bot_type, self.verbosity = bot_type, verbosity
+        self.bot_id, self.verbosity = bot_id, verbosity
 
         if self.verbosity == Verbosity.File:
             logging.basicConfig(filename='bot.log', level=logging.INFO)
@@ -51,10 +51,12 @@ class GuiBot:
         async with ws.connect(self.web_address) as websocket:
             self.websocket = websocket
             await websocket.send(json.dumps({
-                'channel_token': self.channel_token,
-                'type': self.bot_type,
-                'cmds': []
+                'channel': self.channel_token,
+                'id': self.bot_id,
+                'cmds': [],
+                'protection': 'ip'
             }))
+            answer = await self.websocket.recv()
 
             await self.logic(self)
 
