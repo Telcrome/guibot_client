@@ -7,6 +7,8 @@ import logging
 
 from enum import Enum
 
+from guibot import REMOTE_WS
+
 
 class Verbosity(Enum):
     Silent, File, Printer = range(3)
@@ -16,12 +18,14 @@ class GuiBot:
 
     def __init__(self,
                  channel_id: str,
-                 web_address: str,
                  logic: tau.Callable,
                  bot_id='python_script',
-                 verbosity=Verbosity.File):
+                 verbosity=Verbosity.File,
+                 ws_address=""):
         self.channel_token = channel_id
-        self.web_address = web_address
+        if not ws_address:
+            ws_address = REMOTE_WS
+        self.ws_address = ws_address
         self.logic = logic
         self.websocket = None
         self.bot_id, self.verbosity = bot_id, verbosity
@@ -38,7 +42,7 @@ class GuiBot:
         elif self.verbosity == Verbosity.Printer:
             print(c)
 
-    async def send_command_by_json(self, command: tau.Dict):
+    async def send_command(self, command: tau.Dict):
         await self.websocket.send(json.dumps(command))
         answer = await self.websocket.recv()
         return json.loads(answer)
@@ -48,7 +52,7 @@ class GuiBot:
         # self.websocket = ws.connect(LOCAL_URI)
         # await websocket.send('test')
 
-        async with ws.connect(self.web_address) as websocket:
+        async with ws.connect(self.ws_address) as websocket:
             self.websocket = websocket
             await websocket.send(json.dumps({
                 'channel': self.channel_token,
