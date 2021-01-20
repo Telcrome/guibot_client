@@ -20,10 +20,11 @@ setuptools.setup(
     ],
     entry_points='''
         [console_scripts]
-        bot=guibot.cli:bot
+        bot=guibot.cli:bot_cli
     ''',
     python_requires='>=3.8',
     install_requires=[
         'click',
+        'websockets'
     ],
 )

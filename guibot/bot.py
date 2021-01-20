@@ -48,9 +48,6 @@ class GuiBot:
         return json.loads(answer)
 
     async def main(self):
-        # uri = LOCAL_URI
-        # self.websocket = ws.connect(LOCAL_URI)
-        # await websocket.send('test')
 
         async with ws.connect(self.ws_address) as websocket:
             self.websocket = websocket
@@ -60,7 +57,10 @@ class GuiBot:
                 'cmds': [],
                 'protection': 'ip'
             }))
-            answer = await self.websocket.recv()
+
+            # The server sends a message when the client logged in
+            login_answer = json.loads(await self.websocket.recv())
+            assert login_answer['message_type'] != 'error'
 
             await self.logic(self)
 

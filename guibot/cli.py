@@ -7,14 +7,14 @@ from guibot import REMOTE_HTTP
 
 
 @click.group()
-def bot():
+def bot_cli():
     """
     AI command line tools.
     """
     pass
 
 
-@bot.command(name='new')
+@bot_cli.command(name='new')
 @click.option('-f', '--filename', default='bot.py')
 def bot_new(filename: str):
     """
@@ -37,4 +37,4 @@ def bot_new(filename: str):
 
 
 if __name__ == '__main__':
-    bot()
+    bot_cli()
