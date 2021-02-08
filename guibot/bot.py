@@ -60,7 +60,7 @@ class GuiBot:
 
             # The server sends a message when the client logged in
             login_answer = json.loads(await self.websocket.recv())
-            assert login_answer['message_type'] != 'error'
+            assert login_answer['msg_type'] != 'error'
 
             await self.logic(self)
 
