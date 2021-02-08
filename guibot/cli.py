@@ -18,7 +18,7 @@ def bot_cli():
 @click.option('-f', '--filename', default='bot.py')
 def bot_new(filename: str):
     """
-    Tests if the cli works
+    Creates a new independent single-file bot.
     """
     url = rf"{REMOTE_HTTP}static/guibot-template.py"
     contents = urllib.request.urlopen(url).read()
